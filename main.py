@@ -51,7 +51,7 @@ def _preflight_hf_auth(model_name):
         else:
             try:
                 login(token=userdata.get("HF_TOKEN"))
-                print("HF login OK（自动从 Colab Secrets 读取 HF_TOKEN）")
+                print("HF login OK (HF_TOKEN read automatically from Colab Secrets)")
             except Exception as err:
                 colab_secret_err = f"{type(err).__name__}: {err}"
 
@@ -59,20 +59,22 @@ def _preflight_hf_auth(model_name):
         auth_check(model_name)
     except GatedRepoError as e:
         if get_token() is None:
-            hint = ("当前会话没有 HF token。\n"
-                    "  1) 在 https://huggingface.co/{m} 接受许可\n"
-                    "  2) 在 https://huggingface.co/settings/tokens 创建 Read token\n"
-                    "  3) **Colab** 左侧边栏 🔑 Secrets（不是 GitHub 的 Secrets）添加名为\n"
-                    "     HF_TOKEN 的 secret（全大写），并打开 'Notebook access' 开关\n"
-                    "  4) 重新运行本 cell")
+            hint = ("No HF token is available in this session.\n"
+                    "  1) Accept the license at https://huggingface.co/{m}\n"
+                    "  2) Create a Read token at https://huggingface.co/settings/tokens\n"
+                    "  3) In Colab, open the Secrets panel in the left sidebar (not the\n"
+                    "     GitHub Secrets page) and add a secret named HF_TOKEN (all caps),\n"
+                    "     then turn on the 'Notebook access' switch\n"
+                    "  4) Re-run this cell")
             if colab_secret_err:
-                hint += f"\n  [从 Colab Secrets 读取失败，原因: {colab_secret_err}]"
+                hint += f"\n  [Reading HF_TOKEN from Colab Secrets failed: {colab_secret_err}]"
         else:
-            hint = ("已有 HF token 但无权访问该仓库：请用同一账号在\n"
-                    "  https://huggingface.co/{m} 接受许可（或等待审核通过）后重试；\n"
-                    "  若是 fine-grained token，确认已勾选 gated repo 读取权限")
+            hint = ("An HF token is present but it cannot access this repository. Using\n"
+                    "  the same account, accept the license at https://huggingface.co/{m}\n"
+                    "  (or wait for the request to be approved) and retry; for a\n"
+                    "  fine-grained token, check that gated-repo read access is enabled")
         raise RuntimeError(
-            f"'{model_name}' 是 gated 仓库，当前无法访问。\n" + hint.format(m=model_name)
+            f"'{model_name}' is a gated repository and is not accessible right now.\n" + hint.format(m=model_name)
         ) from e
     except Exception:
         return

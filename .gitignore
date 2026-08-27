@@ -10,9 +10,8 @@ results/*
 /.vscode
 .DS_Store
 
-# Author-side material kept out of the public repo (files stay on local disk;
-# untracked via `git rm -r --cached`, see commit history): design docs,
-# regression tests, agent config/instructions, CI workflows.
+# Local-only material excluded from this repository: design docs, regression
+# tests, tooling config/instructions, CI workflows.
 /docs/
 /tests/
 /.claude/
