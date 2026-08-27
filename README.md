@@ -18,5 +18,4 @@
 | [`evaluation_hallucination.py`](evaluation_hallucination.py) | End-of-FL perplexity evaluation |
 | [`run_downstream_generation.py`](run_downstream_generation.py) | Optional checkpoint-to-generation analysis |
 | [`visualization.py`](visualization.py) | Result figures |
-| [`HMP_GAE_Colab.ipynb`](HMP_GAE_Colab.ipynb) | The only maintained Colab notebook |
 | [`data/`](data/) | CSV caches for AG News and Yahoo Answers (downloaded on demand) |
